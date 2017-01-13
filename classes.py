@@ -4,8 +4,8 @@ class Mission(object):
 'Welcome, congratulations on surviving hypersleep and arriving near mars.
 We are ready to get into orbit around mars.'
 You sit up and climb out of the hypersleep chamber. You walk over to the computer.""")
-		self.rock_gathering = ['ruby valley', 'crimson lake',  'scarlet rock']
-		self.lichen_planting = ['ruby valley', 'crimson lake',  'scarlet rock']
+		self.rock_gathering = ['ruby', 'crimson',  'scarlet']
+		self.lichen_planting =  ['ruby', 'crimson',  'scarlet']
 		self.main_goals = ['orbit Mars', 'land shuttle', rock_gathering , lichen_planting]	]
 		self.goals_completed = 0
 		self.total_goals = 8
@@ -95,6 +95,54 @@ candy bars (2)
 				sys.exit()
 		    else:
 		    	self.main_goals.remove('land shuttle')
+		    	site_choice()
+
+    def site_choice(self);
+    	choice = input(""""You pack up the rover with the help of the robot. 
+All supplies loaded you prepare to drive to your first site.
+Choose:
+ruby valley
+crimson lake
+scarlet rock""")
+    	sites()
+
+    def sites(self):
+    
+    	if "ruby" in choice:
+    		ruby = ruby_valley('ruby')
+    	elif "crimson" in choice:
+    		crimson = crimson_lake('crimson')
+    	elif "scarlet" in choice:
+    		scarlet = scarlet_rock('scarlet')
+    	else:
+    		site_choice()
+
+    def site_missions(self, loc, name):
+        choices = 0
+        while choices < 3:
+	        choice = input(loc.options)
+	        if 'rock' in choice:
+	        	choices += 1
+	        	loc.gather_rocks()
+	        	try:
+	        		self.rock_gathering.remove(name)
+	        	except Exception:
+	        		print ("already done")
+	        if 'plant' in choice:
+	        	choices += 1
+	        	choices += 1
+	        	loc.plant_lichen()
+	        	try:
+	        		self.lichen_planting.remove(name)
+	        	except Exception:
+	        		print ("already done")
+	        if 'explore' in choice:
+	        	choices += 1
+	        	loc.explore()
+	        site_missions()
+	    
+
+
 
 
 	def orbit(self):
@@ -194,6 +242,9 @@ class Location(object):
 		self.planting_completed = False
 		self.rock_gathering = False
 		self.msgs = {}
+		self.options = """explore
+		                  gather rocks
+		                  plant lichen"""
 
     def explore(self):
     	msg= None
@@ -236,7 +287,8 @@ class scarlet_rock(Location):
 		 hardly the work of erdoding due to wind or ancient streams.""", 
 		 "plant": "you planted lychee, one small step towards an atmosphere", 
 		"rock": "You gather serveral nice rock samples to be analyzed on earth"}
-		super(scarlet_rock, self).__init__(self.msgs)
+		self.final_option ="take a break"
+		super(scarlet_rock, self).__init__(self.msgs, self.final_option)
 
 	def take_break(self):
 		msg = """You climb into the rover, seal in the pressure and take off your helmet.
