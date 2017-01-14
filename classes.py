@@ -28,6 +28,19 @@ food and water packs (2 days)
 candy bars (2)
 """
 
+
+
+    def start(self):
+    	print(self.welcome)
+    	astronaut_name = input("Please type your name to loginto computer and start orbit sequence.")
+    	astronaut = Astronaut(astronaut_name)
+    	print("welcome to main program %s, choose command from menu") % astronaut_name
+        self.console_first_options()
+		
+
+    def start_landing(self):
+    
+
 	def goals_completed(self):
 		if goals_completed < total_goals:
 			return False
@@ -55,6 +68,14 @@ candy bars (2)
 		else:
 			self.console_first_options()
 
+	def orbit(self):
+        print("""You have selected to start the orbit sequence. 
+        	Thrusters moving, description. Spaceship in orbit. 
+        	Satelite has been released into orbit.
+        	Please choose another command""")
+        self.main_goals.remove('orbit Mars')
+        self.console_second_options()
+
 	def land_schuttle_choice(self):
 		choice = input("""mission objectives
 		equiment
@@ -70,19 +91,23 @@ candy bars (2)
 			print self.equipment
 			self.land_schuttle_choice()
 		elif "land" in choice:
-		    
 		    shuttle = Shuttle()
+		    print("""You have selected to start automated land shuttle sequence. Beging release from main ship.
+     Shuttle detached, airlocks in tact. Beinging descent.
+     Warning.
+     Danger.
+     Electromagnetic interference throwing off automated sequence. 
+     Aborting.
+     Pilot must take over manuel control. Adjust speed to land correctly.""")
+		    land_schuttle()
 		else:
 			self.land_schuttle_choice()
 
 
 	def land_schuttle(self):
-	    choice = input("""Type thrusters to break with Retroburning. Type fall to continue falling.
-    	               Shuttle %s from surface, speed %s, fuel %s""") % (shuttle.distance, shuttle.speed, shuttle.fuel)
-
-	def landing(self):
 		while shuttle.distance != 0:
-	        land_schuttle()
+	        choice = input("""Type thrusters to break with Retroburning. Type fall to continue falling.
+    	               Shuttle %s from surface, speed %s, fuel %s""") % (shuttle.distance, shuttle.speed, shuttle.fuel)
 		if choice == "thrusters":
 			shuttle.retroburn()
 		elif choice == "fall":
@@ -95,25 +120,21 @@ candy bars (2)
 				sys.exit()
 		    else:
 		    	self.main_goals.remove('land shuttle')
+		    	print("""You pack up the rover with the help of the robot. 
+                     All supplies loaded you prepare to drive to your first site.""")
 		    	site_choice()
 
     def site_choice(self);
-    	choice = input(""""You pack up the rover with the help of the robot. 
-All supplies loaded you prepare to drive to your first site.
-Choose:
-ruby valley
-crimson lake
-scarlet rock""")
-    	sites()
-
-    def sites(self):
-    
+    	choice = input(""""Choose:
+                           ruby valley
+                           crimson lake
+                           scarlet rock""")    
     	if "ruby" in choice:
-    		ruby = ruby_valley('ruby')
+    		ruby = ruby_valley()
     	elif "crimson" in choice:
-    		crimson = crimson_lake('crimson')
+    		crimson = crimson_lake()
     	elif "scarlet" in choice:
-    		scarlet = scarlet_rock('scarlet')
+    		scarlet = scarlet_rock()
     	else:
     		site_choice()
 
@@ -125,7 +146,7 @@ scarlet rock""")
 	        	choices += 1
 	        	loc.gather_rocks()
 	        	try:
-	        		self.rock_gathering.remove(name)
+	        		self.rock_gathering.remove(loc.name)
 	        	except Exception:
 	        		print ("already done")
 	        if 'plant' in choice:
@@ -133,42 +154,22 @@ scarlet rock""")
 	        	choices += 1
 	        	loc.plant_lichen()
 	        	try:
-	        		self.lichen_planting.remove(name)
+	        		self.lichen_planting.remove(loc.name)
 	        	except Exception:
 	        		print ("already done")
 	        if 'explore' in choice:
 	        	choices += 1
 	        	loc.explore()
-	        site_missions()
-	    
+        if self.lichen_planting and self.rock_gathering:
+	        site_choice()
+	    else:
+	    	if loc.name != ''
 
 
 
 
-	def orbit(self):
-        print("""You have selected to start the orbit sequence. 
-        	Thrusters moving, description. Spaceship in orbit. 
-        	Satelite has been released into orbit.
-        	Please choose another command""")
-        self.main_goals.remove('orbit Mars')
-        self.console_second_options()
 
-    def start(self):
-    	print(self.welcome)
-    	astronaut_name = input("Please type your name to loginto computer and start orbit sequence.")
-    	astronaut = Astronaut(astronaut_name)
-    	print("welcome to main program %s, choose command from menu") % astronaut_name
-        self.console_first_options()
-		
 
-    def start_landing(self):
-    	print("""You have selected to start automated land shuttle sequence. Beging release from main ship.
-     Shuttle detached, airlocks in tact. Beinging descent.
-     Warning.
-     Danger.
-     Electro matic interference throwing off automated sequence. 
-     Aborting.
-     Pilot must take over manuel control. Adjust speed to land correctly.""")
 
 class Being(object):
    
@@ -267,7 +268,8 @@ class ruby_valley(Location):
     	 you almost fancy you can hear a voice accomanying the wind in a high falceto. 
     	 Finding nothing spectacular except the view you return to the rover.""", "plant": "you planted lychee, one small step towards an atmosphere",
     	 "rock":"You gather serveral nice rock samples to be analyzed on earth"}
-    	super(ruby_valley, self).__init__(self.msgs)
+    	 self.name = 'ruby'
+    	super(ruby_valley, self).__init__(self.msgs, self.name)
 
 
 class crimson_lake(Location):
@@ -277,7 +279,8 @@ class crimson_lake(Location):
     	 print fossil and place it in the spare rock container.""", 
     	 "plant": "you planted lychee, one small step towards an atmosphere", 
     	"rock":"You gather serveral nice rock samples to be analyzed on earth"}
-    	super(crimson_valley, self).__init__(self.msgs)
+    	self.name = 'crimson'
+    	super(crimson_valley, self).__init__(self.msgs, self.name)
 
 
 class scarlet_rock(Location):
@@ -288,7 +291,8 @@ class scarlet_rock(Location):
 		 "plant": "you planted lychee, one small step towards an atmosphere", 
 		"rock": "You gather serveral nice rock samples to be analyzed on earth"}
 		self.final_option ="take a break"
-		super(scarlet_rock, self).__init__(self.msgs, self.final_option)
+		self.name = 'scarlet'
+		super(scarlet_rock, self).__init__(self.msgs, self.final_option, self.name)
 
 	def take_break(self):
 		msg = """You climb into the rover, seal in the pressure and take off your helmet.
