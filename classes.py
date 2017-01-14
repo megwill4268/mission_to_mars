@@ -7,8 +7,6 @@ You sit up and climb out of the hypersleep chamber. You walk over to the compute
 		self.rock_gathering = ['ruby', 'crimson',  'scarlet']
 		self.lichen_planting =  ['ruby', 'crimson',  'scarlet']
 		self.main_goals = ['orbit Mars', 'land shuttle', rock_gathering , lichen_planting]	]
-		self.goals_completed = 0
-		self.total_goals = 8
 		self.astronaut = None
 	    self.mission_statement =  """Mission to mars
 Objectives 
@@ -38,21 +36,6 @@ candy bars (2)
         self.console_first_options()
 		
 
-    def start_landing(self):
-    
-
-	def goals_completed(self):
-		if goals_completed < total_goals:
-			return False
-		elif goals_completed == total_goals:
-			return True
-
-	def oribit_option(self):
-		choice = input("""mission objectives
-		equiment
-		start orbit sequence""")
-		console_first_options()
-
 	def console_first_options(self):
 		choice = input("""mission objectives
 		equiment
@@ -74,16 +57,14 @@ candy bars (2)
         	Satelite has been released into orbit.
         	Please choose another command""")
         self.main_goals.remove('orbit Mars')
-        self.console_second_options()
+        self.land_schuttle_choice()
+		
 
 	def land_schuttle_choice(self):
 		choice = input("""mission objectives
 		equiment
 		land shuttle""")
 		console_second_options()
-
-	def console_second_options(self):
-		self.land_schuttle_choice()
 		if "mission" in choice:
 			print self.mission_statement
 			self.land_schuttle_choice()
@@ -163,9 +144,22 @@ candy bars (2)
         if self.lichen_planting and self.rock_gathering:
 	        site_choice()
 	    else:
-	    	if loc.name != ''
+	    	self.main_goals.remove('rock gathering')
+	    	self.main_goals.remove('lichen planting')
+	    	print("That was hard work! All mission goals completed.")
+	    	if loc.name != 'scarlet':
+	    		print("That scarlet rock was nice, I should go take a break up there.")
+	    		site_choice()
+	    	else:
+	    		print("I think I'll take a break here.")
+	    		loc.take_break()
 
 
+	def goals_completed(self):
+		if goals_completed < total_goals:
+			return False
+		elif goals_completed == total_goals:
+			return True
 
 
 
@@ -290,16 +284,16 @@ class scarlet_rock(Location):
 		 hardly the work of erdoding due to wind or ancient streams.""", 
 		 "plant": "you planted lychee, one small step towards an atmosphere", 
 		"rock": "You gather serveral nice rock samples to be analyzed on earth"}
-		self.final_option ="take a break"
 		self.name = 'scarlet'
-		super(scarlet_rock, self).__init__(self.msgs, self.final_option, self.name)
+		super(scarlet_rock, self).__init__(self.msgs, self.name)
 
 	def take_break(self):
 		msg = """You climb into the rover, seal in the pressure and take off your helmet.
 		 You eat a satisfying lunch and admire the view as you snack on a candy bar.
-		  You set it down to drink so water and it is not there when you look back,
+		  You set it down to drink some water and it is not there when you look back,
 		  a little purple being is eating your candy bar!"""
 		print msg
+		self.final_first_choice()
 
 	def final_first_choice(self):
 		choice = input("""take back your candy bar
@@ -310,7 +304,7 @@ class scarlet_rock(Location):
 			sys.exit()
 		elif "hi" in choice:
 	        print("""the purple being eats the rest of the candy bar and then points towards a big rock ahead.""")
-			second_choice()
+			self.final_second_choice()
 		else:
 			self.final_first_choice()
 
@@ -322,12 +316,12 @@ class scarlet_rock(Location):
 			there is a whole city cloaked by a force field of sorts. 
 			you put back on your helmet quickly as the purple creature tries to get out. 
 			You follow it outside and are surrounded by purple beings.""")
-			final_third_choice()
+			self.final_third_choice()
 		elif "eliminate" in choice:
 			print("""You return to earth with the alien body in the spare hibernation pod. 
 				You are wildly popular but feel curious about that rock the rest of your life""")
 		else:
-			final_second_choice()
+			self.final_second_choice()
 
 	def final_third_choice(self):
 		choice = input("""take your picture with aliens
@@ -346,4 +340,4 @@ class scarlet_rock(Location):
 			print ("you fail and are imprisoned, forever :(")
 			sys.exit()
 		else:
-			final_third_choice()
+			self.final_third_choice()
