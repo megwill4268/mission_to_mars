@@ -13,28 +13,32 @@ class Mission(object):
                                     "Mission to mars\n"
                                     "Objectives \n"
 
-                                     "1. Successfully get into orbit around mars and release satelite\n"
-                                     "2. Land shuttle with 80% structural integerety left and 60% fuel\n"
-                                     "3. Pick up rock spemins from 3 locations and plant lychee\n"
+                                     "1. Successfully get into orbit around mars and release satellite\n"
+                                     "2. Land shuttle with 80% structural integrity left and 60% fuel\n"
+                                     "3. Pick up rock specimens from 3 locations and plant lichen\n"
                                      "-----------------\n\n")
         self.equipment = ("-----------------\n"
                           "Equipement\n"
                           "spacesuit (2)\n"
                           "robot (1)\n"
                           "rover (1)\n"
-                          "lychee in  (4)\n"
+                          "lichen planting kits (4)\n"
                           "rock containers (4)\n"
                           "extra air packs (3 days)\n"
                           "food and water packs (2 days)\n"
                           "candy bars (2)\n"
+                          "satellite (1)\n"
                           "-----------------\n\n")
 
 
     def start(self):
         print(self.welcome)
-        astronaut_name = raw_input("Please type your name to loginto computer and start orbit sequence.\n")
+        astronaut_name = raw_input(("-----------------\n"
+            "Please type your name to log into the main computer and start orbit sequence.\n"
+        "-----------------\n\n"))
         astronaut = Astronaut(astronaut_name)
-        print("welcome to main program %s, choose command from menu\n") % astronaut_name
+        print(("-----------------\n"
+            "welcome to main program %s, choose command from menu\n-----------------\n\n")) % astronaut_name
         self.console_first_options()
         
 
@@ -56,8 +60,9 @@ class Mission(object):
     def orbit(self):
         print("-----------------\n"
               "You have selected to start the orbit sequence.\n"
-              "Thrusters moving, description. Spaceship in orbit.\n"
-              "Satelite has been released into orbit.\n"
+              "Automated sequence enabled, moving into Marshain orbit.\nCorrecting\nSpaceship in orbit.\n"
+              "Releasing satellite\n"
+              "Satellite has been released into orbit.\n"
               "Please choose another command\n"
               "-----------------\n\n")
         self.main_goals.remove('orbit Mars')
@@ -77,13 +82,13 @@ class Mission(object):
         elif "land" in choice:
             shuttle = Shuttle()
             print("-----------------\n"
-                  "You have selected to start automated land shuttle sequence. beginning release from main ship.\n"
-                  "Shuttle detached, airlocks intact. Beginning descent.\n"
+                  "You have selected to start automated shuttle landing sequence.\nInitiating release from main ship.\n"
+                  "Shuttle detached, airlocks intact.\nBeginning descent.\n"
                   "Warning.\n"
                   "Danger.\n"
                   "Electromagnetic interference throwing off automated sequence.\n" 
                   "Aborting.\n"
-                  "Pilot must take over manuel control. Adjust speed to land correctly\n."
+                  "Pilot must take over manuel control. Adjust speed to land correctly.\n"
                   "-----------------\n\n")
             self.land_shuttle(shuttle=shuttle)
         else:
@@ -95,7 +100,7 @@ class Mission(object):
             msg = ("-----------------\n"
                    "Type thrusters to break with Retroburning.\n"
                    "Type fall to continue falling.\n"
-                   "Shuttle {dist} from surface, speed {speed}, fuel {fuel}\n-----------------\n\n".format(dist=shuttle.distance, speed=shuttle.speed, fuel=shuttle.fuel))
+                   "Shuttle distance from surface: {dist}, speed {speed}, fuel {fuel}%\n-----------------\n\n".format(dist=shuttle.distance, speed=shuttle.speed, fuel=shuttle.fuel))
             choice = raw_input(msg)
             if choice == "thrusters":
                 shuttle.retroburn()
@@ -251,8 +256,7 @@ class Shuttle(object):
                              "You plant the lychee and die watching strange stars dance.\n")
         else:
             self.landed_successfully = True
-            self.message = ("\nLike the pro you are you gracefully swoop down onto the red marshain\n"
-                           "surface with a perfect landing.\n")
+            self.message = ("\nLike the pro you are you gracefully swoop down onto the red marshain surface with a perfect landing.\n")
 
 
 class Location(object):
@@ -291,7 +295,7 @@ class ruby_valley(Location):
 class crimson_lake(Location):
     def __init__(self):
         self.msgs = { 'explore': ("\nAfters hours of carful searching you find a small footprint fossilized in the ground,\n" 
-                       "it is a round paw with four circular toe indentions, you carefully chizel out the\n"
+                       "it is a round paw with four circular toe indentations, you carefully chizel out the\n"
                        "fossilized foot print and place it in the spare rock container.\n"), 
                       "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
                       "rock":"\nYou gather serveral nice rock samples to be analyzed on earth\n"}
@@ -303,7 +307,7 @@ class scarlet_rock(Location):
     def __init__(self):
         self.msgs = {'explore': ("\nEugene analyzes the area as you look down over the valley,\n"
                       "you notice to your right that some rocks are unusually square and organized,\n"
-                      "hardly the work of erdoding due to wind or ancient streams.\n"), 
+                      "hardly the work of eroding wind or ancient streams.\n"), 
                       "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
                       "rock": "\nYou gather serveral nice rock samples to be analyzed on earth\n"}
         self.name = 'scarlet'
@@ -312,7 +316,7 @@ class scarlet_rock(Location):
     def take_break(self):
         msg = ("\nYou climb into the rover, seal in the pressure and take off your helmet.\n"
                "You eat a satisfying lunch and admire the view as you snack on a candy bar.\n"
-               "You set down the candy bar to drink some water and it is not there when you look back,\n"
+               "You set down the candy bar to drink some water and when you look back\n"
                "a little purple being is eating your candy bar!\n")
         print(msg)
         self.final_first_choice()
@@ -351,7 +355,7 @@ class scarlet_rock(Location):
                          "* try and capture an alien to take to earth\n"
                          "* say hi\n\n"))
         if "hi" in choice:
-            print(("\nthey wave at you and the purple alien that was with you runs into a\n"
+            print(("\nThe purple aliens wave at you as the purple alien that was with you runs into a\n"
                     "building and comes back out with a suitcase and points to the rover.\n"
                     "You get into the rover and wave goodbye to the aliens.\n"
                     "You drive back to the shuttle and get into the hibernation pods.\n"
