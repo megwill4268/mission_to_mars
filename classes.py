@@ -138,18 +138,17 @@ class Mission(object):
         while choices < 3:
             choice = raw_input(loc.options)
             if 'rock' in choice:
-                choices += 1
-                loc.gather_rocks()
                 try:
                     self.rock_gathering.remove(loc.name)
+                    choices += 1
+                    loc.gather_rocks()
                 except Exception:
                     print ("already done\n")
             if 'plant' in choice:
-                choices += 1
-                choices += 1
-                loc.plant_lichen()
                 try:
                     self.lichen_planting.remove(loc.name)
+                    choices += 1
+                    loc.plant_lichen()
                 except Exception:
                     print ("already done\n")
             if 'explore' in choice:
@@ -158,16 +157,18 @@ class Mission(object):
         if self.lichen_planting and self.rock_gathering:
             self.site_choice()
         else:
-            self.main_goals.remove('rock gathering')
-            self.main_goals.remove('lichen planting')
-            print("That was hard work! All mission goals completed.\n")
-            if loc.name != 'scarlet':
-                print("That scarlet rock was nice, I should go take a break up there.\n")
-                self.site_choice()
-            else:
-                print("I think I'll take a break here.\n")
-                loc.take_break()
+            self.main_goals.remove(self.rock_gathering)
+            self.main_goals.remove(self.lichen_planting)
+            self.ending(loc)
 
+    def ending(self, loc):
+            print("All mission goals completed. That was hard work!\n")
+            if loc.name != 'scarlet':
+                print("That scarlet rock was nice, you decide to take a break up there.\n")
+                loc = scarlet_rock()
+            else:
+                print("You decide to take a break here.\n")
+            loc.take_break()
 
 
 class Being(object):
@@ -237,19 +238,21 @@ class Shuttle(object):
     def cal_landing_success(self):
         if self.fuel < 60:
             self.landed_successfully = False
-            self.message = ("You landed saftely but do not have enough fuel to make it back to the spaceship and return to Earth.\n"
-                             "You plant the lychee and die watching strange stars dance.\n")
+            self.message = ("\nYou landed saftely but do not have enough fuel to make it back to the spaceship\n"
+                            "and return to Earth.\n"
+                            "You plant the lychee and die watching strange stars dance.\n")
         elif self.structural_integrity <= 30:
             self.landed_successfully = False
-            self.message = "You hit the surface too fast and explode in a blaze of glory.\n"
+            self.message = "\nYou hit the surface too fast and explode in a blaze of glory.\n"
         elif (self.structural_integrity > 30) and (self.structural_integrity < 80):
             self.landed_successfully = False
-            self.message = ("You hit the surface in a crumpled hull that no longer remotely resembles a shuttle.\n"
+            self.message = ("\nYou hit the surface in a crumpled hull that no longer remotely resembles a shuttle.\n"
                              "You can no longer to make it back to the spaceship and return to earth.\n"
-                             "You plant the lychee and die watching strange stars.\n")
+                             "You plant the lychee and die watching strange stars dance.\n")
         else:
             self.landed_successfully = True
-            self.message = "Like a pro you gracefully swoop down onto the red marshain surface with a perfect landing.\n"
+            self.message = ("\nLike the pro you are you gracefully swoop down onto the red marshain\n"
+                           "surface with a perfect landing.\n")
 
 
 class Location(object):
@@ -257,7 +260,7 @@ class Location(object):
         self.name = name
         self.planting_completed = False
         self.rock_gathering = False
-        self.msgs = {}
+        self.msgs = msgs
         self.options = ("* explore\n"
                         "* gather rocks\n"
                         "* plant lichen\n\n")
@@ -276,87 +279,89 @@ class Location(object):
 
 class ruby_valley(Location):
     def __init__(self):
-        self.msgs = { 'explore': ("walking through the valley the wind makes a lovely whistle,\n"
+        self.msgs = { 'explore': ("\nWalking through the valley the wind makes a lovely whistle,\n"
                       "you almost fancy you can hear a voice accomanying the wind in a high falceto.\n" 
                       "Finding nothing spectacular except the view you return to the rover.\n"), 
-                      "plant": "you planted lychee, one small step towards an atmosphere\n",
-                      "rock":"You gather serveral nice rock samples to be analyzed on earth\n"}
+                      "plant": "\nYou planted lichen, one small step towards an atmosphere\n",
+                      "rock":"\nYou gather serveral nice rock samples to be analyzed on earth\n"}
         self.name = 'ruby'
-        super(ruby_valley, self).__init__(self.msgs, self.name)
+        super(ruby_valley, self).__init__(msgs=self.msgs, name=self.name)
 
 
 class crimson_lake(Location):
     def __init__(self):
-        self.msgs = { 'explore': ("you find a small footprint fossilized in the ground,\n" 
-                       "it is a round paw with four round toe indentions, you carefully chizel out the\n"
-                       "print fossil and place it in the spare rock container.\n"), 
-                      "plant": "you planted lychee, one small step towards an atmosphere\n", 
-                      "rock":"You gather serveral nice rock samples to be analyzed on earth\n"}
+        self.msgs = { 'explore': ("\nAfters hours of carful searching you find a small footprint fossilized in the ground,\n" 
+                       "it is a round paw with four circular toe indentions, you carefully chizel out the\n"
+                       "fossilized foot print and place it in the spare rock container.\n"), 
+                      "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
+                      "rock":"\nYou gather serveral nice rock samples to be analyzed on earth\n"}
         self.name = 'crimson'
-        super(crimson_valley, self).__init__(self.msgs, self.name)
+        super(crimson_lake, self).__init__(msgs=self.msgs, name=self.name)
 
 
 class scarlet_rock(Location):
     def __init__(self):
-        self.msgs = {'explore': ("The robot analyzes the area as you look down over the valley,\n"
+        self.msgs = {'explore': ("\nEugene analyzes the area as you look down over the valley,\n"
                       "you notice to your right that some rocks are unusually square and organized,\n"
                       "hardly the work of erdoding due to wind or ancient streams.\n"), 
-                      "plant": "you planted lychee, one small step towards an atmosphere\n", 
-                      "rock": "You gather serveral nice rock samples to be analyzed on earth\n"}
+                      "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
+                      "rock": "\nYou gather serveral nice rock samples to be analyzed on earth\n"}
         self.name = 'scarlet'
-        super(scarlet_rock, self).__init__(self.msgs, self.name)
+        super(scarlet_rock, self).__init__(msgs=self.msgs, name=self.name)
 
     def take_break(self):
-        msg = ("You climb into the rover, seal in the pressure and take off your helmet.\n"
+        msg = ("\nYou climb into the rover, seal in the pressure and take off your helmet.\n"
                "You eat a satisfying lunch and admire the view as you snack on a candy bar.\n"
-               "You set it down to drink some water and it is not there when you look back,\n"
+               "You set down the candy bar to drink some water and it is not there when you look back,\n"
                "a little purple being is eating your candy bar!\n")
         print(msg)
         self.final_first_choice()
 
     def final_first_choice(self):
-        choice = raw_input(("take back your candy bar\n"
-                            "say hi\n"))
+        choice = raw_input(("* take back your candy bar\n"
+                            "* say hi\n\n"))
         if "candy" in choice:
-            print (("The purple creature sadly hands you the candy bar and you eat the rest of it,\n"
+            print (("\nThe purple creature sadly hands you the candy bar and you eat the rest of it,\n"
                     "it's saliva poisons you and you die with the purple being looking very sad and worried.\n"))
             sys.exit()
         elif "hi" in choice:
-            print("the purple being eats the rest of the candy bar and then points towards a big rock ahead.\n")
+            print("\nThe purple being eats the rest of the candy bar and then points towards a big rock ahead.\n")
             self.final_second_choice()
         else:
             self.final_first_choice()
 
     def final_second_choice(self):
-        choice = raw_input(("follow creature's point\n"
-                         "have the robot eliminate the creature\n"))
+        choice = raw_input(("* follow creature's point\n"
+                         "* have eugene eliminate the creature\n\n"))
         if "follow" in choice:
-            print(("The rock disapears and you find you have driven into a street,\n"
+            print(("\nThe rock disapears and you find you have driven into a street,\n"
                     "there is a whole city cloaked by a force field of sorts.\n"
-                    "you put back on your helmet quickly as the purple creature tries to get out. \n"
-                    "You follow it outside and are surrounded by purple beings.\n"))
+                    "Putting your helmet on quickly as the purple creature tries to get out you \n"
+                    "follow it outside and are surrounded by purple beings.\n"))
             self.final_third_choice()
         elif "eliminate" in choice:
-            print(("You return to earth with the alien body in the spare hibernation pod.\n"
+            print(("\nYou return to earth with the alien body in the spare hibernation pod.\n"
                     "You are wildly popular but feel curious about that rock the rest of your life\n"))
+            sys.exit()
         else:
             self.final_second_choice()
 
     def final_third_choice(self):
-        choice = raw_input(("take your picture with aliens\n"
-                         "try and capture an alien to take to earth\n"
-                         "say hi\n"))
+        choice = raw_input(("* take your picture with aliens\n"
+                         "* try and capture an alien to take to earth\n"
+                         "* say hi\n\n"))
         if "hi" in choice:
-            print(("they wave at you and the purple alien that was with you runs into a\n"
+            print(("\nthey wave at you and the purple alien that was with you runs into a\n"
                     "building and comes back out with a suitcase and points to the rover.\n"
                     "You get into the rover and wave goodbye to the aliens.\n"
                     "You drive back to the shuttle and get into the hibernation pods.\n"
-                    "You and the alien arrive heros to earth, splurp, the alien tours all the\n"
+                    "You and the alien arrive heros to earth, Splurp, the alien tours all the\n"
                     "great wonders of the world and then returns to mars on the next shuttle.\n"))
+            sys.exit()
         if "picture" in choice:
-             print( "you now have an awesome souvenier, way to go!\n")
+             print( "\nyou now have an awesome souvenier, way to go!\n")
         if "capture" in choice:
-            print ("you fail and are imprisoned, forever :(\n")
+            print ("\nyou fail and are imprisoned, forever :(\n")
             sys.exit()
         else:
             self.final_third_choice()
