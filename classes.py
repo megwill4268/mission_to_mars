@@ -1,7 +1,7 @@
 import sys
 class Mission(object):
     def __init__(self):
-        self.welcome = ("A tall long robot with a nametag reading 'Eugene' is smiling down at you.\n"
+        self.welcome = ("A tall, long robot with a nametag reading 'Eugene' is smiling down at you.\n"
                         "'Welcome, congratulations on surviving hypersleep and arriving near mars.\n"
                         "We are ready to get into orbit around mars.'\n"
                         "You sit up and climb out of the hypersleep chamber. You walk over to the computer.\n")
@@ -18,7 +18,7 @@ class Mission(object):
                                      "3. Pick up rock specimens from 3 locations and plant lichen\n"
                                      "-----------------\n\n")
         self.equipment = ("-----------------\n"
-                          "Equipement\n"
+                          "Equipment\n"
                           "spacesuit (2)\n"
                           "robot (1)\n"
                           "rover (1)\n"
@@ -38,21 +38,21 @@ class Mission(object):
         "-----------------\n\n"))
         astronaut = Astronaut(astronaut_name)
         print(("-----------------\n"
-            "welcome to main program %s, choose command from menu\n-----------------\n\n")) % astronaut_name
+            "Welcome %s, choose the number of the command to execute from the menu\n-----------------\n\n")) % astronaut_name
         self.console_first_options()
         
 
     def console_first_options(self):
-        choice = raw_input(("* mission objectives\n"
-                            "* equipment\n"
-                            "* start orbit sequence\n\n"))
-        if "mission" in choice:
+        choice = raw_input(("1. List mission objectives\n"
+                            "2. View your equipment\n"
+                            "3. Release Satellite\n\n"))
+        if choice == 1:
             print self.mission_statement
             self.console_first_options()
-        elif "equipment" in choice:
+        elif choice == 2:
             print self.equipment
             self.console_first_options()
-        elif "orbit" in choice:
+        elif choice == 3:
              self.orbit()
         else:
             self.console_first_options()
@@ -60,7 +60,7 @@ class Mission(object):
     def orbit(self):
         print("-----------------\n"
               "You have selected to start the orbit sequence.\n"
-              "Automated sequence enabled, moving into Marshain orbit.\nCorrecting\nSpaceship in orbit.\n"
+              "Automated sequence enabled, moving into Martian orbit.\nCorrecting\nSpaceship in orbit.\n"
               "Releasing satellite\n"
               "Satellite has been released into orbit.\n"
               "Please choose another command\n"
@@ -70,16 +70,16 @@ class Mission(object):
         
 
     def land_shuttle_choice(self):
-        choice = raw_input(("* mission objectives\n"
-                            "* equipment\n"
-                            "* land shuttle\n\n"))
-        if "mission" in choice:
+        choice = raw_input(("1. List mission objectives\n"
+                            "2. View your equipment\n"
+                            "3. Land shuttle\n\n"))
+        if choice == 1:
             print self.mission_statement
             self.land_shuttle_choice()
-        elif "equipment" in choice:
+        elif choice == 2:
             print self.equipment
             self.land_shuttle_choice()
-        elif "land" in choice:
+        elif choice == 3:
             shuttle = Shuttle()
             print("-----------------\n"
                   "You have selected to start automated shuttle landing sequence.\nInitiating release from main ship.\n"
@@ -88,7 +88,7 @@ class Mission(object):
                   "Danger.\n"
                   "Electromagnetic interference throwing off automated sequence.\n" 
                   "Aborting.\n"
-                  "Pilot must take over manuel control. Adjust speed to land correctly.\n"
+                  "Pilot must take over manual control. Adjust speed to land correctly.\n"
                   "-----------------\n\n")
             self.land_shuttle(shuttle=shuttle)
         else:
@@ -98,7 +98,7 @@ class Mission(object):
     def land_shuttle(self, shuttle):
         while shuttle.distance != 0:
             msg = ("-----------------\n"
-                   "Type thrusters to break with Retroburning.\n"
+                   "Type thrusters to break using retroburning.\n"
                    "Type fall to continue falling.\n"
                    "Shuttle distance from surface: {dist}, speed {speed}, fuel {fuel}%\n-----------------\n\n".format(dist=shuttle.distance, speed=shuttle.speed, fuel=shuttle.fuel))
             choice = raw_input(msg)
@@ -114,25 +114,25 @@ class Mission(object):
             if shuttle.landed_successfully == False:
                sys.exit()
             else:
-                self.main_goals.remove('land shuttle')
+                self.main_goals.remove('3. Land shuttle')
                 print("-----------------\n"
                       "You pack up the rover with the help of the Eugene.\n"
-                      "All supplies loaded you prepare to drive to your first site.\n"
+                      "With all supplies loaded, you prepare to drive to your first site.\n"
                       "-----------------\n\n")
                 self.site_choice()
 
     def site_choice(self):
         choice = raw_input("Choose:\n"
-                        "* ruby valley\n"
-                        "* crimson lake\n"
-                        "* scarlet rock\n\n")    
-        if "ruby" in choice:
+                        "1: Ruby valley\n"
+                        "2: Crimson lake\n"
+                        "3: Scarlet rock\n\n")    
+        if choice == 1:
             ruby = ruby_valley()
             self.site_missions(ruby)
-        elif "crimson" in choice:
+        elif choice == 2:
             crimson = crimson_lake()
             self.site_missions(crimson)
-        elif "scarlet" in choice:
+        elif choice == 3:
              scarlet = scarlet_rock()
              self.site_missions(scarlet)
         else:
@@ -243,9 +243,9 @@ class Shuttle(object):
     def cal_landing_success(self):
         if self.fuel < 60:
             self.landed_successfully = False
-            self.message = ("\nYou landed saftely but do not have enough fuel to make it back to the spaceship\n"
+            self.message = ("\nYou landed safely but do not have enough fuel to make it back to the spaceship\n"
                             "and return to Earth.\n"
-                            "You plant the lychee and die watching strange stars dance.\n")
+                            "You plant the lichen and die watching strange stars dance.\n")
         elif self.structural_integrity <= 30:
             self.landed_successfully = False
             self.message = "\nYou hit the surface too fast and explode in a blaze of glory.\n"
@@ -253,10 +253,10 @@ class Shuttle(object):
             self.landed_successfully = False
             self.message = ("\nYou hit the surface in a crumpled hull that no longer remotely resembles a shuttle.\n"
                              "You can no longer to make it back to the spaceship and return to earth.\n"
-                             "You plant the lychee and die watching strange stars dance.\n")
+                             "You plant the lichen and die watching strange stars dance.\n")
         else:
             self.landed_successfully = True
-            self.message = ("\nLike the pro you are you gracefully swoop down onto the red marshain surface with a perfect landing.\n")
+            self.message = ("\nLike the pro you are, you gracefully swoop down onto the red Martian surface with a perfect landing.\n")
 
 
 class Location(object):
@@ -283,33 +283,33 @@ class Location(object):
 
 class ruby_valley(Location):
     def __init__(self):
-        self.msgs = { 'explore': ("\nWalking through the valley the wind makes a lovely whistle,\n"
-                      "you almost fancy you can hear a voice accomanying the wind in a high falceto.\n" 
-                      "Finding nothing spectacular except the view you return to the rover.\n"), 
+        self.msgs = { 'explore': ("\nWalking through the valley, the wind makes a lovely whistle,\n"
+                      "you almost fancy you can hear a voice accompanying the wind in a high falceto.\n" 
+                      "Finding nothing spectacular except the view, you return to the rover.\n"), 
                       "plant": "\nYou planted lichen, one small step towards an atmosphere\n",
-                      "rock":"\nYou gather serveral nice rock samples to be analyzed on earth\n"}
+                      "rock":"\nYou gather several nice rock samples to be analyzed on earth\n"}
         self.name = 'ruby'
         super(ruby_valley, self).__init__(msgs=self.msgs, name=self.name)
 
 
 class crimson_lake(Location):
     def __init__(self):
-        self.msgs = { 'explore': ("\nAfters hours of carful searching you find a small footprint fossilized in the ground,\n" 
+        self.msgs = { 'explore': ("\nAfters hours of careful searching, you find a small footprint fossilized in the ground,\n" 
                        "it is a round paw with four circular toe indentations, you carefully chizel out the\n"
                        "fossilized foot print and place it in the spare rock container.\n"), 
                       "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
-                      "rock":"\nYou gather serveral nice rock samples to be analyzed on earth\n"}
+                      "rock":"\nYou gather several nice rock samples to be analyzed on earth\n"}
         self.name = 'crimson'
         super(crimson_lake, self).__init__(msgs=self.msgs, name=self.name)
 
 
 class scarlet_rock(Location):
     def __init__(self):
-        self.msgs = {'explore': ("\nEugene analyzes the area as you look down over the valley,\n"
+        self.msgs = {'explore': ("\nEugene analyzes the area and as you look down over the valley,\n"
                       "you notice to your right that some rocks are unusually square and organized,\n"
                       "hardly the work of eroding wind or ancient streams.\n"), 
                       "plant": "\nYou planted lichen, one small step towards an atmosphere\n", 
-                      "rock": "\nYou gather serveral nice rock samples to be analyzed on earth\n"}
+                      "rock": "\nYou gather several nice rock samples to be analyzed on earth\n"}
         self.name = 'scarlet'
         super(scarlet_rock, self).__init__(msgs=self.msgs, name=self.name)
 
@@ -340,27 +340,27 @@ class scarlet_rock(Location):
         if "follow" in choice:
             print(("\nThe rock disapears and you find you have driven into a street,\n"
                     "there is a whole city cloaked by a force field of sorts.\n"
-                    "Putting your helmet on quickly as the purple creature tries to get out you \n"
-                    "follow it outside and are surrounded by purple beings.\n"))
+                    "You put your helmet on quickly as the purple creature tries to get out. You \n"
+                    "follow it outside and are quickly surrounded by many purple beings.\n"))
             self.final_third_choice()
         elif "eliminate" in choice:
             print(("\nYou return to earth with the alien body in the spare hibernation pod.\n"
-                    "You are wildly popular but feel curious about that rock the rest of your life\n"))
+                    "You are wildly popular but feel curious about that rock the rest of your life...\n"))
             sys.exit()
         else:
             self.final_second_choice()
 
     def final_third_choice(self):
         choice = raw_input(("* take your picture with aliens\n"
-                         "* try and capture an alien to take to earth\n"
-                         "* say hi\n\n"))
+                            "* try and capture an alien to take to earth\n"
+                            "* say hi\n\n"))
         if "hi" in choice:
             print(("\nThe purple aliens wave at you as the purple alien that was with you runs into a\n"
                     "building and comes back out with a suitcase and points to the rover.\n"
                     "You get into the rover and wave goodbye to the aliens.\n"
                     "You drive back to the shuttle and get into the hibernation pods.\n"
-                    "You and the alien arrive heros to earth, Splurp, the alien tours all the\n"
-                    "great wonders of the world and then returns to mars on the next shuttle.\n"))
+                    "You and the alien arrive heroes to earth, Splurp, the alien tours all the\n"
+                    "great wonders of the world and then returns to Mars on the next shuttle.\n"))
             sys.exit()
         if "picture" in choice:
              print( "\nyou now have an awesome souvenier, way to go!\n")
