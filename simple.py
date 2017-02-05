@@ -5,7 +5,7 @@ structural_integrity = 100
 speed_alteration = 200
 fuel_usuage = 10
 distance = 10000
-landed_successfully='False'
+landed_successfully= 'False'
 
 # simple supporting functions 
 
@@ -15,6 +15,7 @@ def cal_landing_damage():
     if speed != 0:
        structural_integrity -= (speed * 0.1)
 
+
 # calculate distance change when `fall` is choosen 
 def falling():
     global distance
@@ -22,6 +23,7 @@ def falling():
         distance -= 2000
     else:
         distance = 0 # can't go below the surface!
+
 
 # calculate distance, fuel and speed changes when 'break' is choosen
 def breaking():
