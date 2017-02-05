@@ -82,7 +82,7 @@ class Mission(object):
                   "Danger.\n"
                   "Electromagnetic interference throwing off automated sequence.\n"
                   "Aborting.\n"
-                  "Pilot must take over manuel control. Adjust speed to land correctly.\n")
+                  "Pilot must take over manual control. Adjust speed to land correctly.\n")
             self.land_shuttle(shuttle=shuttle)
         else:
             self.land_shuttle_choice()
@@ -106,8 +106,7 @@ class Mission(object):
             if not shuttle.landed_successfully:
                 sys.exit()
             else:
-                print("-----------------\n"
-                      "You pack up the rover with the help of the Eugene.\n"
+                print("You pack up the rover with the help of Eugene.\n"
                       "All supplies loaded you prepare to drive to your first site.\n"
                       "-----------------\n\n")
                 self.site_choice()
