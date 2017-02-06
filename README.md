@@ -1,6 +1,5 @@
 # Python Text Adventure Game
 
 Contains:
-   * Python Challenge
-   * No Programing experience tutorial
-   * Object Oriented tutorial
+   * Python Challenge + longer python text game
+   * simple python text game
