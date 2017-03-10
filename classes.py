@@ -316,8 +316,8 @@ class ScarletRock(Location):
     def final_third_choice(self):
         choice = raw_input(("* take your picture with aliens\n"
                             "* try and capture an alien to take to earth\n"
-                            "* wave hello\n\n"))
-        if "hi" in choice:
+                            "* say hello\n\n"))
+        if "hello" in choice:
             print(("\nThe purple aliens wave at you as the purple alien that was with you runs into a\n"
                    "building and comes back out with a suitcase and points to the rover.\n"
                    "You get into the rover and wave goodbye to the aliens.\n"
