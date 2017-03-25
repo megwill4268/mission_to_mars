@@ -22,7 +22,7 @@ class Shuttle(object):
 
 	# calculate distance, fuel and speed changes when 'brake' is choosen
 	def braking(self):
-	"""Not allowing negative speed, distance or fuel"""
+		"""Not allowing negative speed, distance or fuel"""
 		if self.speed >= self.speed_alteration:
 			self.speed -= self.speed_alteration
 		else:
