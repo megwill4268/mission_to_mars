@@ -59,7 +59,7 @@ class Shuttle(object):
 		while self.distance != 0:
 			print("Shuttle distance from surface: {dist}, speed {speed}, fuel {fuel}".format(
 			dist=self.distance, speed=self.speed, fuel=self.fuel))
-			choice = raw_input("Type 'brake' to slow fall. Type 'fall' to continue falling.")
+			choice = input("Type 'brake' to slow fall. Type 'fall' to continue falling.")
 
 			if choice == "brake":
 				self.braking()
@@ -72,7 +72,7 @@ class Shuttle(object):
 
 print("Approaching mars")
 
-astronaut_name = raw_input("Please type your name to start landing sequence.")
+astronaut_name = input("Please type your name to start landing sequence.")
 
 print("Astronaut {} selected to start shuttle landing sequence. Initiating release from main ship.".format(astronaut_name))
 
